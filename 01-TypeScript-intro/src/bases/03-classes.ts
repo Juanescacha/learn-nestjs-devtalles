@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export class PokemonA {
     public id: number;
     public name: string;
@@ -30,6 +32,11 @@ export class PokemonB {
     public speak() {
         console.log(`${this.name}, ${this.name}`);
     }
+
+    async getMoves() {
+        const { data } = await axios.get('https://pokeapi.co/api/v2/pokemon/4')
+        return data;
+    }
 }
 
 export const charmander = new PokemonA(4, 'Charmander');
@@ -37,3 +44,4 @@ export const pikachu = new PokemonB(5, 'Pikachu');
 
 pikachu.scream();
 pikachu.speak();
+console.log(await pikachu.getMoves())
