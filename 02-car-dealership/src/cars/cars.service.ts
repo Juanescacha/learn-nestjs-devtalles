@@ -3,6 +3,7 @@ import { v7 as uuid } from 'uuid';
 
 import { Car } from './interfaces/car.interface';
 import { CreateCarDto } from './interfaces/dto/create-car.dto';
+import { UpdateCarDto } from './interfaces/dto/update-car.dto';
 
 @Injectable()
 export class CarsService {
@@ -45,7 +46,7 @@ export class CarsService {
     return newCar;
   }
 
-  update(id: string, createCarDto: CreateCarDto) {
+  update(id: string, updateCarDto: UpdateCarDto) {
     const carIndex = this.cars.findIndex((car) => car.id === id);
 
     if (carIndex === -1) {
@@ -54,7 +55,7 @@ export class CarsService {
 
     const updatedCar: Car = {
       ...this.cars[carIndex],
-      ...createCarDto,
+      ...updateCarDto,
     };
 
     this.cars[carIndex] = updatedCar;
