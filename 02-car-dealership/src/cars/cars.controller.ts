@@ -27,8 +27,7 @@ export class CarsController {
 
   @Post()
   createCar(@Body() createCarDto: CreateCarDto) {
-    const { brand, model } = createCarDto;
-    return this.carsService.create(brand, model);
+    return this.carsService.create(createCarDto);
   }
 
   @Patch(':id')
@@ -36,8 +35,7 @@ export class CarsController {
     @Param('id', new ParseUUIDPipe({ version: '7' })) id: string,
     @Body() createCarDto: CreateCarDto,
   ) {
-    const { brand, model } = createCarDto;
-    return this.carsService.update(id, brand, model);
+    return this.carsService.update(id, createCarDto);
   }
 
   @Delete(':id')
