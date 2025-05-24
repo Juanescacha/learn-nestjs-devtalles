@@ -2,8 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { v7 as uuid } from 'uuid';
 
 import { Car } from './interfaces/car.interface';
-import { CreateCarDto } from './interfaces/dto/create-car.dto';
-import { UpdateCarDto } from './interfaces/dto/update-car.dto';
+import { CreateCarDto, UpdateCarDto } from './interfaces/dto';
 
 @Injectable()
 export class CarsService {
@@ -47,29 +46,27 @@ export class CarsService {
   }
 
   update(id: string, updateCarDto: UpdateCarDto) {
-    const carIndex = this.cars.findIndex((car) => car.id === id);
+    let carDB = this.findOneById(id);
 
-    if (carIndex === -1) {
-      throw new NotFoundException(`Car with ID '${id}' not found`);
-    }
+    this.cars = this.cars.map((car) => {
+      if (car.id === id) {
+        carDB = {
+          ...carDB,
+          ...updateCarDto,
+          id,
+        };
+        return carDB;
+      }
+      return car;
+    });
 
-    const updatedCar: Car = {
-      ...this.cars[carIndex],
-      ...updateCarDto,
-    };
-
-    this.cars[carIndex] = updatedCar;
-    return updatedCar;
+    return carDB;
   }
 
   delete(id: string) {
-    const carIndex = this.cars.findIndex((car) => car.id === id);
+    const car = this.findOneById(id);
 
-    if (carIndex === -1) {
-      throw new NotFoundException(`Car with ID '${id}' not found`);
-    }
-
-    this.cars.splice(carIndex, 1);
-    return { id };
+    this.cars = this.cars.filter((car) => car.id !== id);
+    return car;
   }
 }
