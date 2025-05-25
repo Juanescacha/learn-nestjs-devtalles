@@ -21,25 +21,25 @@ export class CarsController {
   }
 
   @Get(':id')
-  getCarById(@Param('id', new ParseUUIDPipe({ version: '7' })) id: string) {
+  getCarById(@Param('id', ParseUUIDPipe) id: string) {
     return this.carsService.findOneById(id);
   }
 
   @Post()
-  createCar(@Body() createCarDto: CreateCarDto) {
-    return this.carsService.create(createCarDto);
+  createCar(@Body() createCardDto: CreateCarDto) {
+    return this.carsService.create(createCardDto);
   }
 
   @Patch(':id')
   updateCar(
-    @Param('id', new ParseUUIDPipe({ version: '7' })) id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateCarDto: UpdateCarDto,
   ) {
     return this.carsService.update(id, updateCarDto);
   }
 
   @Delete(':id')
-  deleteCar(@Param('id', new ParseUUIDPipe({ version: '7' })) id: string) {
+  deleteCar(@Param('id', ParseUUIDPipe) id: string) {
     return this.carsService.delete(id);
   }
 }
